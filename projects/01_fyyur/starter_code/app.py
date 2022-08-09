@@ -132,7 +132,10 @@ def search_venues():
   # search for "Music" should return "The Musical Hop" and "Park Square Live Music & Coffee"
   search_term=request.form.get('search_term', '')
   search = f"%{search_term}%"
-  venues = Venue.query.filter(Venue.name.ilike(db.literal(search))).all()
+  venues = Venue.query.filter(or_(
+    Venue.name.ilike(db.literal(search)),
+    Venue.city.ilike(db.literal(search)),
+    Venue.state.ilike(db.literal(search)))).all()
   response={
     "count": len(venues),
     # "data": [{
@@ -412,7 +415,10 @@ def search_artists():
   # search for "band" should return "The Wild Sax Band".
   search_term=request.form.get('search_term', '')
   search = f"%{search_term}%"
-  artists = Artist.query.filter(Artist.name.ilike(db.literal(search))).all()
+  artists = Artist.query.filter(or_(
+    Artist.name.ilike(db.literal(search)),
+    Artist.city.ilike(db.literal(search)),
+    Artist.state.ilike(db.literal(search)),)).all()
   response={
     "count": len(artists),
     "data" : []

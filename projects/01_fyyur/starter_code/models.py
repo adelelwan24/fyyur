@@ -6,7 +6,7 @@
 from datetime import datetime
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import distinct, func, desc, inspect
+from sqlalchemy import distinct, func, desc, inspect, or_
 
 
 db = SQLAlchemy()
