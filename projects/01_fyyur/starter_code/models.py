@@ -2,8 +2,23 @@
 # Imports
 #----------------------------------------------------------------------------#
 
-from __main__ import db
+
 from datetime import datetime
+
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import distinct, func, desc, inspect
+
+
+db = SQLAlchemy()
+
+
+
+#-----------------------------------------------------------------------------------------#
+#    https://riptutorial.com/sqlalchemy/example/6614/converting-a-query-result-to-dict
+
+def object_as_dict(obj):                                    # map queries into object(dict)
+  return {c.key: getattr(obj, c.key) for c in inspect(obj).mapper.column_attrs}
+#-----------------------------------------------------------------------------------------#
 
 #----------------------------------------------------------------------------#
 # Models.
