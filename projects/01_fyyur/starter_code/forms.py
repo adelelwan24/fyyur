@@ -1,7 +1,24 @@
+#----------------------------------------------------------------------------#
+# Learned leasons
+#----------------------------------------------------------------------------#
+
+# https://softhints.com/regex-phone-number-find-validation-python/
+
+# https://stackabuse.com/flask-form-validation-with-flask-wtf/
+
+# https://wtforms.readthedocs.io/en/stable/validators/#module-wtforms.validators
+
+
+#----------------------------------------------------------------------------#
+# Imports
+#----------------------------------------------------------------------------#
+
+
 from datetime import datetime
+from typing import Optional
 from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField
-from wtforms.validators import DataRequired, AnyOf, URL, Regexp
+from wtforms.validators import DataRequired, AnyOf, URL, Regexp, Optional
 
 class ShowForm(Form):
     artist_id = StringField(
@@ -83,7 +100,12 @@ class VenueForm(Form):
         'address', validators=[DataRequired()]
     )
     phone = StringField(
-        'phone', validators=[Regexp("^\d\d\d-\d\d\d-\d\d\d\d$",message='Wrong phone format')]
+            'phone', validators=[Optional(),
+            Regexp(r"^(\([0-9]{3}\) ?|[0-9]{3}-)[0-9]{3}-[0-9]{4}$",
+            # Regexp("^\d\d\d-\d\d\d-\d\d\d\d$",
+            message='Invalid phone format'
+            )
+            ]
     )
     image_link = StringField(
         'image_link'
@@ -114,10 +136,10 @@ class VenueForm(Form):
         ]
     )
     facebook_link = StringField(
-        'facebook_link', validators=[URL()]
+        'facebook_link', validators=[URL(message='Invalid facebook URL'),Optional()]
     )
     website_link = StringField(
-        'website_link'
+        'website_link', validators=[URL(message='Invalid websiet URL'),Optional()]
     )
 
     seeking_talent = BooleanField( 'seeking_talent')
@@ -193,7 +215,11 @@ class ArtistForm(Form):
     )
     phone = StringField(
         # TODO implement validation logic for phone 
-        'phone', validators=[Regexp("^\d\d\d-\d\d\d-\d\d\d\d$",message='Wrong phone format')]
+            'phone', validators=[Optional(),
+            Regexp("^\d\d\d-\d\d\d-\d\d\d\d$",
+            message='Invalid phone format'
+            )
+            ]
     )
     image_link = StringField(
         'image_link'
@@ -224,11 +250,11 @@ class ArtistForm(Form):
      )
     facebook_link = StringField(
         # TODO implement enum restriction
-        'facebook_link', validators=[URL()]
+        'facebook_link', validators=[URL(message='Invalid facebook URL'),Optional()]
      )
 
     website_link = StringField(
-        'website_link'
+        'website_link', validators=[URL(message='Invalid website URL'),Optional()]
      )
 
     seeking_venue = BooleanField( 'seeking_venue' )

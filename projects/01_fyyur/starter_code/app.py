@@ -6,17 +6,12 @@
 # rows = Model.query.with_entities(Model.name, Model.age).filter(Model.age >= 20).all()
 # return   List of tuples
 
-# association table valid only if we use the foreign keys only if we need to add any other date 
-# we should use association model (association object patters)
-# https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html#many-to-many
-
 # https://werkzeug.palletsprojects.com/en/2.2.x/datastructures/#werkzeug.datastructures.MultiDict
-
-# https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html#association-object
 
 # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
 
 # https://stackoverflow.com/questions/41270319/how-do-i-query-an-association-table-in-sqlalchemy
+
 
 #----------------------------------------------------------------------------#
 # Imports
@@ -174,6 +169,7 @@ def show_venue(venue_id):
   data['past_shows'] = []
   # past_shows_query = Show.query.filter(func.date(Show.start_time) < datetime.now(),
   #                           Show.venue_id == data.get('id')).all() 
+
   past_shows_query = db.session.query(Show,Artist).join(Artist).filter(
                         func.date(Show.start_time) < datetime.now(),
                         Show.venue_id == venue_id).all() 
@@ -184,6 +180,7 @@ def show_venue(venue_id):
     past['artist_name'] = artist.name
     past['artist_image_link'] = artist.image_link
     past['start_time'] = str(show.start_time)
+
     data['past_shows'].append(past)
 
   data['past_shows_count'] = len(data['past_shows'])
@@ -325,6 +322,9 @@ def create_venue_submission():
       db.session.commit()         
       flash('Venue ' + request.form['name'] + ' was successfully listed!')
     else:
+      for f , e in form.errors.items():
+        # flash(f'field {f} has an error "{str(e)}"')
+        print(f'field {f} has an error "{str(e)}"')
       error = 'Form validation error'
       raise Exception('Form Validation Error')
   except:
@@ -745,6 +745,9 @@ def create_artist_submission():
       db.session.commit()       
       flash('Artist ' + request.form['name'] + ' was successfully listed!')
     else:
+      for f , e in form.errors.items():
+        # flash(f'field {f} has an error "{str(e)}"')
+        print(f'field {f} has an error "{str(e)}"')
       error = 'Form validation error'
       raise Exception('Form Validation Error')
   except:

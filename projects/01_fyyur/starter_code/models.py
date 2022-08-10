@@ -1,7 +1,20 @@
 #----------------------------------------------------------------------------#
-# Imports
+# Learned leasons
 #----------------------------------------------------------------------------#
 
+# association table valid only if we use the foreign keys only if we need to add any other date 
+# we should use association model (association object patters)
+# https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html#many-to-many
+
+# https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html#association-object
+
+
+
+
+
+#----------------------------------------------------------------------------#
+# Imports
+#----------------------------------------------------------------------------#
 
 from datetime import datetime
 
@@ -10,8 +23,6 @@ from sqlalchemy import distinct, func, desc, inspect, or_
 
 
 db = SQLAlchemy()
-
-
 
 #-----------------------------------------------------------------------------------------#
 #    https://riptutorial.com/sqlalchemy/example/6614/converting-a-query-result-to-dict
