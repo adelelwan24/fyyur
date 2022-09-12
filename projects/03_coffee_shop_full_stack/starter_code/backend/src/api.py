@@ -75,7 +75,7 @@ def new_drink(payload):
     body = request.get_json()
     title =  body.get('title', None)
     recipe = body.get('recipe', "")
-    recipe = f'"{recipe}"'
+    recipe = json.dumps(recipe)
     try:
         drink = Drink(title=title,recipe=recipe)
         drink.insert()
